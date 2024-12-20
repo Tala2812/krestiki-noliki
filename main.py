@@ -34,6 +34,13 @@ def on_click(row, col):
 
     current_player = "0" if current_player == "X" else "X"
 
+def reset_game():
+    global current_player
+    current_player = "X"
+    for row in buttons:
+        for button in row:
+            button['text'] = ""
+
 for i in range(3):
     row = []
     for j in range(3):
@@ -42,6 +49,8 @@ for i in range(3):
         row.append(btn)
     buttons.append(row)
 
+reset_button = tk.Button(window, text="Сброс", font=('Arial', 14), command=reset_game)
+reset_button.grid(row=3, column=0, columnspan=3, pady=10)
 
 
 window.mainloop()
