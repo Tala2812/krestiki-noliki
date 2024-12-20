@@ -53,8 +53,12 @@ def on_click(row, col):
         else:
             score_o += 1
         update_score()
-        messagebox.showinfo("Игра окончена", f"Игрок {current_player} победил!")
-        reset_game()
+        if score_x == 3 or score_o == 3:
+            messagebox.showinfo("Битва окончена", f"Игрок {current_player} победил!")
+            reset_match()
+        else:
+            messagebox.showinfo("Игра окончена", f"Игрок {current_player} победил!")
+            reset_game()
         return
 
     if check_draw():
@@ -66,15 +70,22 @@ def on_click(row, col):
 
 def reset_game():
     global current_player
-    choose_symbol()  # Выбор символа перед началом новой игры
+    choose_symbol()
     for row in buttons:
         for button in row:
             button['text'] = ""
 
+def reset_match():
+    global score_x, score_o
+    score_x = 0
+    score_o = 0
+    update_score()
+    reset_game()
+
 def update_score():
     score_label.config(text=f"X: {score_x} | O: {score_o}")
 
-choose_symbol()  # Выбор символа перед началом игры
+choose_symbol()
 
 for i in range(3):
     row = []
