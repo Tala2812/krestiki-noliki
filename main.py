@@ -5,7 +5,6 @@ window = tk.Tk()
 window.title("Крестики-нолики")
 window.geometry('300x350')
 
-
 current_player = "X"
 buttons = []
 
@@ -21,16 +20,30 @@ def check_winner():
         return True
     return False
 
+def check_draw():
+    for row in buttons:
+        for button in row:
+            if button['text'] == "":
+                return False
+    return True
+
 def on_click(row, col):
     global current_player
 
-    if buttons[row] [col] ['text'] != '':
+    if buttons[row][col]['text'] != '':
         return
 
-    buttons[row] [col] ['text'] = current_player
+    buttons[row][col]['text'] = current_player
 
     if check_winner():
-        messagebox.showinfo(f"Игра окончена", f"Игрок {current_player} победил!")
+        messagebox.showinfo("Игра окончена", f"Игрок {current_player} победил!")
+        reset_game()
+        return
+
+    if check_draw():
+        messagebox.showinfo("Игра окончена", "Ничья!")
+        reset_game()
+        return
 
     current_player = "0" if current_player == "X" else "X"
 
@@ -44,13 +57,12 @@ def reset_game():
 for i in range(3):
     row = []
     for j in range(3):
-        btn = tk.Button(window, text="", font=('Arial',20), width=5, height=2, command=lambda  r=i, c=j: on_click(r, c))
+        btn = tk.Button(window, text="", font=('Arial', 20), width=5, height=2, command=lambda r=i, c=j: on_click(r, c))
         btn.grid(row=i, column=j)
         row.append(btn)
     buttons.append(row)
 
 reset_button = tk.Button(window, text="Сброс", font=('Arial', 14), command=reset_game)
 reset_button.grid(row=3, column=0, columnspan=3, pady=10)
-
 
 window.mainloop()
