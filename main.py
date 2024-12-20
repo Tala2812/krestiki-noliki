@@ -75,6 +75,8 @@ for i in range(3):
                          command=reset_game)
     
 
+reset_button = tk.Button(window, text="Сброс", font=('Arial', 14), command=reset_game)
 reset_button.grid(row=3, column=0, columnspan=3, pady=10)
+
 
 window.mainloop()
