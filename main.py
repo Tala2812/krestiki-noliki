@@ -11,6 +11,10 @@ window.configure(bg='#FFC0CB')  # Нежно-розовый цвет
 current_player = "X"  # По умолчанию
 buttons = []
 
+# Счетчики побед
+score_x = 0
+score_o = 0
+
 def choose_symbol():
     global current_player
     choice = messagebox.askquestion("Выбор символа", "Вы хотите играть крестиками? (Да - крестики, Нет - нолики)")
@@ -36,7 +40,7 @@ def check_draw():
     return True
 
 def on_click(row, col):
-    global current_player
+    global current_player, score_x, score_o
 
     if buttons[row][col]['text'] != '':
         return
@@ -44,6 +48,11 @@ def on_click(row, col):
     buttons[row][col]['text'] = current_player
 
     if check_winner():
+        if current_player == "X":
+            score_x += 1
+        else:
+            score_o += 1
+        update_score()
         messagebox.showinfo("Игра окончена", f"Игрок {current_player} победил!")
         reset_game()
         return
@@ -61,6 +70,9 @@ def reset_game():
     for row in buttons:
         for button in row:
             button['text'] = ""
+
+def update_score():
+    score_label.config(text=f"X: {score_x} | O: {score_o}")
 
 choose_symbol()  # Выбор символа перед началом игры
 
@@ -80,5 +92,8 @@ reset_button = tk.Button(window, text="Сброс", font=('Arial', 14),
                          fg='white',    # Белый цвет текста на кнопке сброса
                          command=reset_game)
 reset_button.grid(row=3, column=0, columnspan=3, pady=10)
+
+score_label = tk.Label(window, text=f"X: {score_x} | O: {score_o}", font=('Arial', 14), bg='#FFC0CB')
+score_label.grid(row=4, column=0, columnspan=3)
 
 window.mainloop()
