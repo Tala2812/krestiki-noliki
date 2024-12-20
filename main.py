@@ -8,8 +8,13 @@ window.geometry('300x350')
 # Установка цвета фона окна
 window.configure(bg='#FFC0CB')  # Нежно-розовый цвет
 
-current_player = "X"
+current_player = "X"  # По умолчанию
 buttons = []
+
+def choose_symbol():
+    global current_player
+    choice = messagebox.askquestion("Выбор символа", "Вы хотите играть крестиками? (Да - крестики, Нет - нолики)")
+    current_player = "X" if choice == "yes" else "0"
 
 def check_winner():
     for i in range(3):
@@ -52,11 +57,12 @@ def on_click(row, col):
 
 def reset_game():
     global current_player
-    current_player = "X"
+    choose_symbol()  # Выбор символа перед началом новой игры
     for row in buttons:
         for button in row:
             button['text'] = ""
 
+choose_symbol()  # Выбор символа перед началом игры
 
 for i in range(3):
     row = []
@@ -69,14 +75,10 @@ for i in range(3):
         row.append(btn)
     buttons.append(row)
 
-    reset_button = tk.Button(window, text="Сброс", font=('Arial', 14),
-                             bg='#8A2BE2',  # Фиолетовый цвет кнопки сброса
-                             fg='white',    # Белый цвет текста на кнопке сброса
+reset_button = tk.Button(window, text="Сброс", font=('Arial', 14),
+                         bg='#8A2BE2',  # Фиолетовый цвет кнопки сброса
+                         fg='white',    # Белый цвет текста на кнопке сброса
                          command=reset_game)
-    
-
-reset_button = tk.Button(window, text="Сброс", font=('Arial', 14), command=reset_game)
 reset_button.grid(row=3, column=0, columnspan=3, pady=10)
-
 
 window.mainloop()
